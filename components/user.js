@@ -25,7 +25,13 @@ exports.userReg = async (req, res) => {
             throw err
         } else {
             //Accepts the inputs and create user model form req.body
-            var newUser = new model.User(req.body)
+            var newUser = new model.User({
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                emailId: req.body.emailId,
+                password: req.body.password,
+                role: 'user'
+            })
             //Performing validations
             if (validator.emailValidation(newUser.emailId) &&
                 validator.passwordValidation(newUser.password) &&
@@ -83,6 +89,9 @@ exports.userLogin = async (req, res) => {
                 emailId: user.emailId,
                 firstName: user.firstName,
                 lastName: user.lastName,
+                isPremium: user.isPremium === true,
+                role: user.role || 'user',
+                premiumSince: user.premiumSince,
                 accessToken
             })
         }

@@ -22,6 +22,10 @@ import { ViewExpense } from './components/expense/viewExpense';
 import EditExpense from './components/expense/editExpense';
 import { EditGroup } from './components/groups/editGroup';
 import About from './components/about';
+import Premium from './components/premium';
+import PremiumBudget from './components/premium/Budget';
+import PremiumAssistant from './components/premium/Assistant';
+import PremiumReports from './components/premium/Reports';
 
 
 export default function Router() {
@@ -49,7 +53,11 @@ export default function Router() {
         // {path:configData.ABOUT_URL,
         //   element: <About/>},
         {path:configData.USER_PROFILE_URL,
-          element: <Profile/>}
+          element: <Profile/>},
+        {path: configData.PREMIUM_URL, element: <Premium/>},
+        {path: configData.PREMIUM_BUDGET_URL, element: <PremiumBudget/>},
+        {path: configData.PREMIUM_ASSISTANT_URL, element: <PremiumAssistant/>},
+        {path: configData.PREMIUM_REPORTS_URL, element: <PremiumReports/>}
       ]
     },
     {

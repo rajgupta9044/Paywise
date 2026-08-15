@@ -62,7 +62,7 @@ export default function AddExpense() {
     },
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps, setFieldValue } = formik;
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -85,7 +85,7 @@ export default function AddExpense() {
         const response_group = await getGroupDetailsService(groupIdJson, setAlert, setAlertMessage)
         setGroupCurrency(response_group?.data?.group?.groupCurrency)
         setGroupMembers(response_group?.data?.group?.groupMembers)
-        formik.values.expenseMembers = response_group?.data?.group?.groupMembers
+        setFieldValue('expenseMembers', [currentUser])
         setLoading(false)
     }
     getGroupDetails()
@@ -168,22 +168,22 @@ export default function AddExpense() {
 
               <Grid item xs={12}>
                 <FormControl sx={{ width: '100%' }} error={Boolean(touched.expenseMembers && errors.expenseMembers)}>
-                  <InputLabel id="expense-members-label">Expense Members</InputLabel>
+                  <InputLabel id="expense-members-label">Other Expense Members</InputLabel>
                   <Select
                     labelId="expense-members-label"
                     id="expense-members"
                     multiple
                     {...getFieldProps('expenseMembers')}
-                    input={<OutlinedInput id="expense-members" label="Expense Members" />}
+                    input={<OutlinedInput id="expense-members" label="Other Expense Members" />}
                     renderValue={(selected) => (
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                        {selected.map((value) => (
+                        {selected.filter((value) => value !== currentUser).map((value) => (
                           <Chip key={value} label={value} />
                         ))}
                       </Box>
                     )}
                     MenuProps={MenuProps}>
-                    {groupMembers?.map((member) => (
+                    {groupMembers?.filter((member) => member !== currentUser).map((member) => (
                       <MenuItem
                         key={member}
                         value={member}
@@ -192,7 +192,7 @@ export default function AddExpense() {
                       </MenuItem>
                     ))}
                   </Select>
-                  <FormHelperText>{touched.expenseMembers&& errors.expenseMembers}</FormHelperText>
+                  <FormHelperText>{(touched.expenseMembers && errors.expenseMembers) || 'You are included automatically.'}</FormHelperText>
                 </FormControl>
               </Grid>
 

@@ -77,7 +77,7 @@ export default function Login() {
         {mdUp && (
           <SectionStyle>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            Manage the expense more effectively with SplitApp !
+            Manage expenses more effectively with PayWise!
             </Typography>
             <img src="/static/illustrations/illustration_register.png" alt="login" />
           </SectionStyle>
@@ -88,7 +88,7 @@ export default function Login() {
                 Get started absolutely free.
             </Typography>
 
-            <Typography sx={{ color: 'text.secondary', mb: 5 }}>Open Source, Group expense splitting app!</Typography>
+            <Typography sx={{ color: 'text.secondary', mb: 5 }}>Group expense splitting made simple.</Typography>
 
             <RegisterForm />
             {/* <AuthSocial />*/}

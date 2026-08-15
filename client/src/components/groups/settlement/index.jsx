@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material';
+import { Card, CardContent, Divider, Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
@@ -19,6 +19,7 @@ export const GroupSettlements = ({ currencyType }) => {
     const [alertMessage, setAlertMessage] = useState()
     const [loading, setLoading] = useState(true)
     const [groupSettlement, setGroupSettlemet] = useState()
+    const [settlementHistory, setSettlementHistory] = useState([])
     const [reload, setReload] = useState(false)
 
 
@@ -32,6 +33,7 @@ export const GroupSettlements = ({ currencyType }) => {
             }
             const group_settle = await getGroupSettleService(groupIdJson, setAlert, setAlertMessage)
             setGroupSettlemet(group_settle?.data?.data)
+            setSettlementHistory(group_settle?.data?.history || [])
             setLoading(false)
         }
         getGroupSettlement()
@@ -72,6 +74,26 @@ export const GroupSettlements = ({ currencyType }) => {
                         </Typography>
                         </Grid>
                          : <UserBalanceChart/>}
+
+                    <Card sx={{ mt: 3 }}>
+                        <CardContent>
+                            <Typography variant="h5" gutterBottom>Settlement history</Typography>
+                            {settlementHistory.length === 0 ?
+                                <Typography color="text.secondary">No settlements have been recorded yet.</Typography> :
+                                settlementHistory.map((settlement, index) => (
+                                    <Box key={settlement._id || index} sx={{ py: 1.5 }}>
+                                        <Typography>
+                                            <strong>{settlement.settleFrom?.split('@')[0]}</strong> paid <strong>{settlement.settleTo?.split('@')[0]}</strong>{' '}
+                                            {currencyType} {Number(settlement.settleAmount || 0).toFixed(2)}
+                                        </Typography>
+                                        <Typography variant="caption" color="text.secondary">
+                                            {new Date(settlement.createdAt || settlement.settleDate).toLocaleString()}
+                                        </Typography>
+                                        {index < settlementHistory.length - 1 && <Divider sx={{ mt: 1.5 }} />}
+                                    </Box>
+                                ))}
+                        </CardContent>
+                    </Card>
 
 
                         

@@ -62,11 +62,11 @@ export const GroupExpenseChart = () => {
             const userIdJson = {
                 user: profile.emailId
             }
-            const group_exp =
-                await getUserGroupsService(profile, setAlert, setAlertMessage)
-            setGroupExp(group_exp.data.groups)
+            const group_exp = await getUserGroupsService(profile, setAlert, setAlertMessage)
+            const groups = group_exp?.data?.groups || []
+            setGroupExp(groups)
             setLoading(false)
-            console.log(group_exp.data.groups)
+            console.log(groups)
         }
         getGroupExpense()
 

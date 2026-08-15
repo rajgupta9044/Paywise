@@ -4,6 +4,7 @@ var logger = require('./helper/logger')
 var requestLogger = require('./helper/requestLogger')
 var apiAuth = require('./helper/apiAuthentication')
 var cors = require('cors')
+var bodyParser = require('body-parser')
 
 const path = require('path');
 dotenv.config()
@@ -11,15 +12,26 @@ dotenv.config()
 var usersRouter = require('./routes/userRouter')
 var groupRouter = require('./routes/groupRouter')
 var expenseRouter = require('./routes/expenseRouter')
+var budgetRouter = require('./routes/budgetRouter')
+var aiRouter = require('./routes/aiRouter')
+var reportRouter = require('./routes/reportRouter')
+var paymentRouter = require('./routes/paymentRouter')
+var paymentController = require('./components/payment')
+var model = require('./model/schema')
 
 var app = express()
 app.use(cors())
+app.post('/api/payments/v1/webhook', bodyParser.raw({ type: 'application/json' }), paymentController.webhook)
 app.use(express.json())
 app.use(requestLogger)
 
 app.use('/api/users', usersRouter)
 app.use('/api/group', apiAuth.validateToken, groupRouter)
 app.use('/api/expense', apiAuth.validateToken, expenseRouter)
+app.use('/api/budget', budgetRouter)
+app.use('/api/ai', aiRouter)
+app.use('/api/reports', reportRouter)
+app.use('/api/payments', paymentRouter)
 
 // Serve static React frontend
 const buildPath = path.join(__dirname, 'client', 'build');
@@ -50,7 +62,12 @@ app.get('*', (req, res) => {
 });
 
 const port = process.env.PORT || 3001
-app.listen(port, (err) => {
-    console.log(`Server started in PORT | ${port}`)
-    logger.info(`Server started in PORT | ${port}`)
+model.dbConnection.then(() => {
+    console.log('DB Connected')
+    app.listen(port, () => {
+        console.log(`Backend connected | http://localhost:${port}`)
+    })
+}).catch(err => {
+    console.error(`Database connection failed: ${err.message}`)
+    process.exitCode = 1
 })

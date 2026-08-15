@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">PayWise mark</title>
+  <desc id="desc">Two interlocking arrows representing shared expense splitting</desc>
+  <defs>
+    <linearGradient id="bg" x1="12" y1="8" x2="116" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="120" height="120" rx="32" fill="url(#bg)"/>
+  <path d="M37 48h36l-9-9 8-8 23 23-23 23-8-8 9-9H37a10 10 0 1 0 0 20h10v12H37a22 22 0 1 1 0-44Z" fill="#fff"/>
+  <path d="M91 80H55l9 9-8 8-23-23 23-23 8 8-9 9h36a10 10 0 1 0 0-20H81V36h10a22 22 0 1 1 0 44Z" fill="#E0F2FE"/>
+</svg>

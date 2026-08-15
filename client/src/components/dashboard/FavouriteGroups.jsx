@@ -42,7 +42,7 @@ const FavouriteGroups = () => {
         const getUserFavGroups = async () => {
           setLoading(true)
           const response_group = await getUserGroupsService(profile)
-          setGroup(response_group.data.groups)
+          setGroup(response_group?.data?.groups || [])
           setLoading(false)          
         }
         getUserFavGroups()

@@ -14,7 +14,7 @@ Logo.propTypes = {
 export default function Logo({ disabledLink = false, sx }) {
  
   // OR
-  // const logo = <Box component="img" src="/static/logo.svg" sx={{ width: 40, height: 40, ...sx }} />
+  // Shared PayWise mark used by the login and dashboard layouts.
 
   const logo = (
     <Box sx={{ width: 40, height: 40, ...sx }}>
@@ -49,7 +49,7 @@ export default function Logo({ disabledLink = false, sx }) {
           />
         </g>
       </svg> */}
-      <img src = "/static/logo.png"/>
+      <Box component="img" src="/static/paywise-mark.svg" alt="PayWise" sx={{ width: '100%', height: '100%' }} />
     </Box>
   );
 

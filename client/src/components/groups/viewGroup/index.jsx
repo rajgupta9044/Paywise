@@ -13,6 +13,7 @@ import GroupMonthlyGraph from './groupMonthlyGraph';
 import { Link as RouterLink } from 'react-router-dom';
 import dataConfig from '../../../config.json';
 import { GroupSettlements } from '../settlement';
+import MyBalance from '../settlement/myBalance';
 
 const profile = JSON.parse(localStorage.getItem('profile'))
 const emailId = profile?.emailId
@@ -253,7 +254,7 @@ export default function ViewGroup() {
                                         <Typography variant="h6"
                                             sx={{ color: (theme) => theme.palette['success'].dark }}
                                         >
-                                            You are owed <br />
+                                            You will get <br />
                                         </Typography>
                                         <Typography variant="h5"
                                             sx={{ color: (theme) => theme.palette['success'].darker }}>
@@ -276,7 +277,7 @@ export default function ViewGroup() {
                                         <Typography variant="h6"
                                             sx={{ color: (theme) => theme.palette['error'].dark }}
                                         >
-                                            You owe <br />
+                                            You will pay <br />
                                         </Typography>
                                         <Typography variant="h5"
                                             sx={{ color: (theme) => theme.palette['error'].darker }}>
@@ -360,10 +361,13 @@ export default function ViewGroup() {
                                 ...(mdUp && { px: 6 })
                             }}
                         >
-                            {viewSettlement == 2 && 
-                            <Typography>
-                                My Balance - Under development 
-                            </Typography>
+                            {viewSettlement === 2 &&
+                                <Grid item md={12} xs={12}>
+                                    <MyBalance
+                                        currencyType={group?.groupCurrency}
+                                        balance={findUserSplit(group?.split)}
+                                    />
+                                </Grid>
                             }
                             {viewSettlement === 1 &&
                                 <Grid item md={12} xs={12}>

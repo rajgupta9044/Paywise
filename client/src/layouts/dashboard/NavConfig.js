@@ -28,6 +28,11 @@ const navConfig = [
     path: configData.ABOUT_URL,
     icon: getIcon('fluent:info-12-filled'),
   },
+  {
+    title: 'Premium',
+    path: configData.PREMIUM_URL,
+    icon: getIcon('eva:diamond-fill'),
+  },
 ];
 
 export default navConfig;

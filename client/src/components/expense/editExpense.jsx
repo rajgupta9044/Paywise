@@ -23,6 +23,8 @@ export default function EditExpense() {
   const navigate = useNavigate();  
   const params = useParams();
   const mdUp = useResponsive('up', 'md');
+  const profile = JSON.parse(localStorage.getItem('profile') || '{}')
+  const currentUser = profile?.emailId
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(false)
   const [alertMessage, setAlertMessage] = useState('')
@@ -59,7 +61,7 @@ export default function EditExpense() {
     },
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps, setFieldValue } = formik;
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -88,7 +90,7 @@ export default function EditExpense() {
         formik.values.expenseName = exp?.expenseName
         formik.values.expenseDescription = exp?.expenseDescription
         formik.values.expenseOwner = exp?.expenseOwner
-        formik.values.expenseMembers = exp?.expenseMembers
+        setFieldValue('expenseMembers', Array.from(new Set([currentUser, ...(exp?.expenseMembers || [])])))
         formik.values.expenseAmount = exp?.expenseAmount
         formik.values.expenseCategory = exp?.expenseCategory
         formik.values.expenseDate = exp?.expenseDate
@@ -178,23 +180,23 @@ export default function EditExpense() {
 
               <Grid item xs={12}>
                 <FormControl sx={{ width: '100%' }}>
-                  <InputLabel id="expense-members-label">Expense Members</InputLabel>
+                  <InputLabel id="expense-members-label">Other Expense Members</InputLabel>
                   <Select
                     labelId="expense-members-label"
                     id="expense-members"
                     multiple
                     {...getFieldProps('expenseMembers')}
-                    input={<OutlinedInput id="expense-members" label="Expense Members" />}
+                    input={<OutlinedInput id="expense-members" label="Other Expense Members" />}
                     renderValue={(selected) => (
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                        {selected.map((value) => (
+                        {selected.filter((value) => value !== currentUser).map((value) => (
                           <Chip key={value} label={value} />
                         ))}
                       </Box>
                     )}
                     MenuProps={MenuProps}
                   >
-                    {groupMembers?.map((member) => (
+                    {groupMembers?.filter((member) => member !== currentUser).map((member) => (
                       <MenuItem
                         key={member}
                         value={member}
@@ -203,6 +205,7 @@ export default function EditExpense() {
                       </MenuItem>
                     ))}
                   </Select>
+                  <FormHelperText>You are included automatically.</FormHelperText>
                 </FormControl>
               </Grid>
 

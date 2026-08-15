@@ -115,7 +115,7 @@ export default function GroupCards({ title, description, groupMembers, share, cu
             borderRadius: 1,
             color: share < 0 ? (theme) => theme.palette['error'].darker : (theme) => theme.palette['success'].darker
           }}>
-            <b> {share < 0? <>You owe</> : <>You are owed</>} : &nbsp;
+            <b> {share < 0? <>You will pay</> : <>You will get</>} : &nbsp;
               {currencyFind(currencyType)} {convertToCurrency(Math.abs(Math.floor(share)))}</b>
           </Typography>
         </Stack>

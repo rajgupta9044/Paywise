@@ -374,7 +374,8 @@ exports.groupBalanceSheet = async(req, res) =>{
         }
         res.status(200).json({
             status: "Success",
-            data: splitCalculator(group.split[0])
+            data: splitCalculator(group.split[0]),
+            history: await model.Settlement.find({ groupId: req.body.id }).sort({ createdAt: -1, settleDate: -1 }).lean()
         })
     } catch (err) {
         logger.error(`URL : ${req.originalUrl} | staus : ${err.status} | message: ${err.message}`)

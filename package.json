@@ -1,5 +1,5 @@
 {
-  "name": "splitapp",
+  "name": "paywise",
   "version": "1.0.0",
   "description": "This is a group money spliting app made with MERN stack ",
   "main": "app.js",
@@ -30,6 +30,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.8",
     "morgan": "~1.9.1",
+    "razorpay": "^2.9.8",
     "winston": "^3.7.2"
   },
   "devDependencies": {

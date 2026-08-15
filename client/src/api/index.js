@@ -8,9 +8,10 @@ const profile = JSON.parse(localStorage.getItem('profile'))
 
 const accessHeader = {
     headers: {
-      'Authorization': `token ${profile ? profile.accessToken : null}`
-    }
+      'Authorization': `Bearer ${profile?.accessToken || ''}`
   }
+}
+const premiumHeader = () => ({ headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('profile') || '{}')?.accessToken || ''}` } })
 
 export const loginIn = (formData) => API.post('/api/users/v1/login', formData)
 
@@ -63,3 +64,14 @@ export const getExpDetails = (formData) => API.post('/api/expense/v1/view', form
 export const getSettle = (formData) => API.post('/api/group/v1/settlement', formData, accessHeader)
 
 export const makeSettle = (formData) => API.post('/api/group/v1/makeSettlement', formData, accessHeader)
+
+export const listBudgets = (groupId) => API.post('/api/budget/list', { groupId }, premiumHeader())
+export const createBudget = (data) => API.post('/api/budget/add', data, premiumHeader())
+export const updateBudget = (data) => API.put('/api/budget/edit', data, premiumHeader())
+export const deleteBudget = (data) => API.delete('/api/budget/delete', { ...premiumHeader(), data })
+export const getBudgetSummary = (data) => API.post('/api/budget/summary', data, premiumHeader())
+export const askSpendingAssistant = (data) => API.post('/api/ai/v1/expense-insights', data, premiumHeader())
+export const exportReport = (format, data) => API.post(`/api/reports/v1/${format}`, data, { ...premiumHeader(), responseType: 'blob' })
+export const getReportSummary = (data) => API.post('/api/reports/v1/summary', data, premiumHeader())
+export const createPremiumOrder = () => API.post('/api/payments/v1/order', {}, premiumHeader())
+export const verifyPremiumPayment = (data) => API.post('/api/payments/v1/verify', data, premiumHeader())

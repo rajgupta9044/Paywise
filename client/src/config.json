@@ -19,6 +19,10 @@
     "USER_PROFILE_URL" : "/dashboard/userProfile",
     "USER_DELETED_URL" : "/userProfile/confirmDelete",
     "USER_PASS_UPDATE_URL" : "/dashboard/userProfile/updatePassword",
+    "PREMIUM_URL" : "/dashboard/premium",
+    "PREMIUM_BUDGET_URL" : "/dashboard/premium/budget",
+    "PREMIUM_ASSISTANT_URL" : "/dashboard/premium/assistant",
+    "PREMIUM_REPORTS_URL" : "/dashboard/premium/reports",
 
     "USER_DEFAULT_LOGO_URL" : "https://res.cloudinary.com/tuzup/image/upload/v1658929366/SplitApp/user_l7xmft.png"
   }

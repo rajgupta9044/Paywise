@@ -51,7 +51,7 @@ export const SummaryCards = ({ userTotalExp }) => {
                         <Typography variant="caption2"
                             sx={{ color: (theme) => theme.palette['success'].darker }}
                         >
-                            You are owed <br />
+                            You will get <br />
                         </Typography>
                         <Typography variant="h5"
                             sx={{ color: (theme) => theme.palette['success'].darker }}>
@@ -74,7 +74,7 @@ export const SummaryCards = ({ userTotalExp }) => {
                         <Typography variant="caption2"
                             sx={{ color: (theme) => theme.palette['error'].dark }}
                         >
-                            You owe <br />
+                            You will pay <br />
                         </Typography>
                         <Typography variant="h5"
                             sx={{ color: (theme) => theme.palette['error'].darker }}>

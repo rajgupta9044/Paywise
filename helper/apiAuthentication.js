@@ -20,29 +20,29 @@ exports.validateToken = (req, res, next) => {
         } else {
             //getting token from request header 
             const authHeader = req.headers["authorization"]
-            //the request header contains the token "Bearer <token>", split the string and use the second value in the split array.
+            if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                logger.error(`URL : ${req.originalUrl} | API Authentication Fail | message: Token not present`)
+                return res.status(403).json({
+                    message: "Token not present"
+                })
+            }
+
             const token = authHeader.split(" ")[1]
 
-
-            //function to verify the token 
             jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
                 if (err) {
                     logger.error(`URL : ${req.originalUrl} | API Authentication Fail | message: Invalid Token`)
-                    res.sendStatus(403).json({
+                    return res.status(403).json({
                         message: "Invalid Token"
                     })
-                    res.end();
-                } else {
-                    //Adding user data to the req
-                    req.user = user
-                    //proceed to the next action in the calling function 
-                    next()
                 }
+                req.user = user
+                next()
             })
-            
         }
     }
 }
+
 
 //Validation function to check if the user is same as the token user 
 exports.validateUser = (user, emailId) => {

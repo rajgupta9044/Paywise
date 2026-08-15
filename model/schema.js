@@ -1,19 +1,12 @@
 var mongoose = require('mongoose')
-var logger = require('../helper/logger')
 
-mongoose.connect(process.env.MONGODB_URI, 
+const dbConnection = mongoose.connect(process.env.MONGODB_URI, 
 //     {
 //     maxPoolSize: 50,
 //     wtimeoutMS: 2500,
 //     useNewUrlParser: true
 // }
-).then(() => {
-    logger.info(`DB Connection Established`)
-    console.log("DB Connected")
-}).catch(err => {
-    logger.error(`DB Connection Fail | ${err.stack}`)
-    console.log(err)
-})
+)
 
 const User = new mongoose.Schema({
     firstName: {
@@ -34,6 +27,18 @@ const User = new mongoose.Schema({
     },
     favGroup: {
         type: Array
+    },
+    isPremium: {
+        type: Boolean,
+        default: false
+    },
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user'
+    },
+    premiumSince: {
+        type: Date
     }
 })
 
@@ -136,9 +141,36 @@ const Settlement = new mongoose.Schema({
         type:Number, 
         required: true
     }
-})
+}, { timestamps: true })
+
+const Budget = new mongoose.Schema({
+    groupId: { type: String, required: true, index: true },
+    name: { type: String, default: "Monthly Budget" },
+    amount: { type: Number, required: true, min: 0 },
+    currency: { type: String, required: true, default: "INR" },
+    startDate: { type: Date, required: true },
+    endDate: { type: Date, required: true },
+    categoryBudgets: [{
+        category: { type: String, required: true },
+        amount: { type: Number, required: true, min: 0 }
+    }],
+    createdBy: { type: String, required: true }
+}, { timestamps: true })
+
+const Payment = new mongoose.Schema({
+    userEmail: { type: String, required: true, index: true },
+    orderId: { type: String, required: true, unique: true },
+    paymentId: { type: String },
+    amount: { type: Number, required: true },
+    currency: { type: String, default: 'INR' },
+    status: { type: String, enum: ['created', 'paid', 'failed'], default: 'created' },
+    paidAt: { type: Date }
+}, { timestamps: true })
 
 module.exports.Expense = mongoose.model('expense', Expense)
 module.exports.User = mongoose.model('user', User)
 module.exports.Group = mongoose.model('group', Group)
 module.exports.Settlement = mongoose.model('settlement', Settlement)
+module.exports.Budget = mongoose.model('budget', Budget)
+module.exports.Payment = mongoose.model('payment', Payment)
+module.exports.dbConnection = dbConnection
